@@ -1,0 +1,12 @@
+---
+- name: Get elasticsearch key
+  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+
+- name: Update repo sources
+  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/2.x/debian stable main' state=present
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Update OS
+  apt: upgrade=dist force=yes

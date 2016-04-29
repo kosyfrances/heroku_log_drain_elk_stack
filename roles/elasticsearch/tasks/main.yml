@@ -1,0 +1,22 @@
+---
+- name: Check if elasticsearch is installed
+  command: bash -c "service --status-all | grep elasticsearch"
+  register: elasticsearch_installed
+  ignore_errors: True
+
+- name: Install necessary packages
+  apt: name={{item}} state=present force=yes
+  when: elasticsearch_installed|failed
+  with_items:
+    - curl
+    - openjdk-7-jdk
+    - elasticsearch=2.3.2
+
+- name: Start elasticsearch
+  service: name=elasticsearch state=started enabled=yes
+
+- name: Wait for elasticsearch to be up
+  command: bash -c "! curl localhost:9200"
+  async: 90
+  poll: 5
+  ignore_errors: True

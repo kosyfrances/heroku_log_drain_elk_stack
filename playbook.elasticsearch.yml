@@ -4,4 +4,4 @@
   become: yes
   become_method: sudo
   roles:
-    - provision
+    - elasticsearch

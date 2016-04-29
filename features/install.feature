@@ -8,6 +8,7 @@ Feature: Provision and Install
     When I install elasticsearch
     Then it should be successful
     And elasticsearch should be running
+    And it should be accepting connections on port 9200
 
   Scenario: Install logstash
     When I install logstash
