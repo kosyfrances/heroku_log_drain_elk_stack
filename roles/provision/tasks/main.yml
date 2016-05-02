@@ -14,6 +14,11 @@
     repo: 'deb http://packages.elasticsearch.org/logstash/2.3/debian stable main'
     state: present
 
+- name: Add Kibana repository
+  apt_repository:
+    repo: 'deb http://packages.elastic.co/kibana/4.5/debian stable main'
+    state: present
+
 - name: Update apt cache
   apt: update_cache=yes
 

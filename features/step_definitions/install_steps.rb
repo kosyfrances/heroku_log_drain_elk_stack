@@ -46,5 +46,6 @@ When(/^I install logstash$/) do
 end
 
 When(/^I install kibana$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.kibana.yml"
+   output, error, @status = Open3.capture3 "#{cmd}"
 end

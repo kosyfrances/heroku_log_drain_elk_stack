@@ -1,0 +1,18 @@
+---
+- name: Check if kibana is installed
+  command: bash -c "service --status-all | grep kibana"
+  register: kibana_installed
+  ignore_errors: True
+
+- name: Install necessary packages
+  apt: name=kibana state=present force=yes
+  when: kibana_installed|failed
+
+- name: Start kibana
+  service: name=kibana state=started enabled=yes
+
+# - name: Wait for kibana to be up
+#   command: bash -c "! curl localhost:5601"
+#   async: 90
+#   poll: 5
+#   ignore_errors: True
