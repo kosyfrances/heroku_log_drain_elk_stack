@@ -4,7 +4,7 @@
     url: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
     state: present
 
-- name: Update repo sources
+- name: Add elasticsearch repository
   apt_repository:
     repo: 'deb http://packages.elasticsearch.org/elasticsearch/2.x/debian stable main'
     state: present
@@ -12,6 +12,11 @@
 - name: Add Logstash repository
   apt_repository:
     repo: 'deb http://packages.elasticsearch.org/logstash/2.3/debian stable main'
+    state: present
+
+- name: Get public signing key for kibana
+  apt_key:
+    url: https://packages.elastic.co/GPG-KEY-elasticsearch
     state: present
 
 - name: Add Kibana repository

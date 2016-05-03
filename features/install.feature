@@ -19,3 +19,4 @@ Feature: Provision and Install
     When I install kibana
     Then it should be successful
     And kibana should be running
+    And it should be accepting connections on port 5601

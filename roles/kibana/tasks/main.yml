@@ -11,8 +11,6 @@
 - name: Start kibana
   service: name=kibana state=started enabled=yes
 
-# - name: Wait for kibana to be up
-#   command: bash -c "! curl localhost:5601"
-#   async: 90
-#   poll: 5
-#   ignore_errors: True
+- name: Wait for kibana to be up
+  command: bash -c "! curl localhost:5601"
+  ignore_errors: True
