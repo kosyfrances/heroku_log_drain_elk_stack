@@ -20,3 +20,8 @@ Feature: Provision and Install
     Then it should be successful
     And kibana should be running
     And it should be accepting connections on port 5601
+
+  Scenario: Create logstash directory
+    When I create a logstash directory
+    Then it should be successful
+    And heroku logstash conf file should be added

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  user: vagrant
+  become: yes
+  become_method: sudo
+  roles:
+    - { role: elasticsearch, tags: 'elasticsearch_setup' }
+    - { role: kibana , tags: 'kibana_setup' }
+    - { role: logstash , tags: 'logstash_setup' }
