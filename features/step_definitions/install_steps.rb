@@ -108,3 +108,9 @@ Then(/^the certificate should exist$/) do
 
   expect(output).to match("server.crt")
 end
+
+When(/^I install apacheutils$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'apache2_utils_setup'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end

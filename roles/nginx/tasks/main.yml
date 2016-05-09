@@ -31,3 +31,16 @@
   service: name=nginx state=restarted
   tags:
     - ssl_cert
+
+- name: Check if apache2_utils is installed
+  command: bash -c "dpkg --get-selections | grep apache2-utils"
+  register: apache2_utils_installed
+  ignore_errors: True
+  tags:
+    - apache2_utils_setup
+
+- name: Install apache2-utils
+  apt: name=apache2-utils state=present force=yes
+  when: apache2_utils_installed|failed
+  tags:
+    - apache2_utils_setup

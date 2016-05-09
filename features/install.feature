@@ -40,3 +40,7 @@ Feature: Provision and Install
     And the key file should exist
     And the certificate should exist
     And nginx should be running
+
+  Scenario: Install apacheutils
+    When I install apacheutils
+    Then it should be successful
