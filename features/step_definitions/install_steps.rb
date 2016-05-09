@@ -14,6 +14,7 @@ end
 
 When(/^I install elasticsearch$/) do
     cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'elasticsearch_setup'"
+
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
@@ -24,7 +25,7 @@ end
 # This is for elasticsearch, logstash and kibana
 And(/^([^"]*) should be running$/) do |pkg|
     case pkg
-    when 'elasticsearch', 'logstash', 'kibana'
+    when 'elasticsearch', 'logstash', 'kibana', 'nginx'
         output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service #{pkg} status'"
 
         expect(status.success?).to eq(true)
@@ -51,9 +52,17 @@ When(/^I install kibana$/) do
 end
 
 When(/^I create a logstash directory$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'logstash_dir'"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^heroku logstash conf file should be added$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
+    output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I install nginx$/) do
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_setup'"
+
+    output, error, @status = Open3.capture3 "#{cmd}"
 end

@@ -1,0 +1,12 @@
+---
+- name: Check if nginx is installed
+  command: bash -c "service --status-all | grep nginx"
+  register: nginx_installed
+  ignore_errors: True
+
+- name: Install nginx
+  apt: name=nginx state=present force=yes
+  when: nginx_installed|failed
+
+- name: Start nginx
+  service: name=nginx state=started enabled=yes

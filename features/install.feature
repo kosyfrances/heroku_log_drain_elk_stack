@@ -23,5 +23,10 @@ Feature: Provision and Install
 
   Scenario: Create logstash directory
     When I create a logstash directory
+    Then heroku logstash conf file should be added
+
+  Scenario: Install nginx
+    When I install nginx
     Then it should be successful
-    And heroku logstash conf file should be added
+    And nginx should be running
+    And it should be accepting connections on port 80
