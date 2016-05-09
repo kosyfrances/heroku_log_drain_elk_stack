@@ -23,10 +23,20 @@ Feature: Provision and Install
 
   Scenario: Create logstash directory
     When I create a logstash directory
-    Then heroku logstash conf file should be added
+    Then conf.d directory should exist
+    And heroku logstash conf file should be added
+    And heroku logstash conf file should be present
 
   Scenario: Install nginx
     When I install nginx
     Then it should be successful
     And nginx should be running
     And it should be accepting connections on port 80
+
+  Scenario: Set up SSL
+    When I create the ssl directory in nginx
+    Then SSL directory should exist
+    Then I should create an SSL certificate
+    And the key file should exist
+    And the certificate should exist
+    And nginx should be running

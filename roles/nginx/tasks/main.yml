@@ -3,10 +3,31 @@
   command: bash -c "service --status-all | grep nginx"
   register: nginx_installed
   ignore_errors: True
+  tags:
+    - nginx_setup
 
 - name: Install nginx
   apt: name=nginx state=present force=yes
   when: nginx_installed|failed
+  tags:
+    - nginx_setup
 
 - name: Start nginx
   service: name=nginx state=started enabled=yes
+  tags:
+    - nginx_setup
+
+- name: Create ssl directory
+  file: path=/etc/nginx/ssl state=directory
+  tags:
+    - ssl_dir
+
+- name: Create a self-signed SSL certificate
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN"=${ansible_fqdn} -days 3650 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
+  tags:
+    - ssl_cert
+
+- name: Reload nginx
+  service: name=nginx state=restarted
+  tags:
+    - ssl_cert

@@ -56,13 +56,55 @@ When(/^I create a logstash directory$/) do
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^heroku logstash conf file should be added$/) do
+Then(/^conf.d directory should exist$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/logstash/ | grep conf.d'"
+
+  expect(output).to match("conf.d")
+end
+
+And(/^heroku logstash conf file should be added$/) do
   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
     output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^heroku logstash conf file should be present$/) do
+    output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/logstash/conf.d | grep heroku.conf'"
+
+    expect(output).to match("heroku.conf")
 end
 
 When(/^I install nginx$/) do
     cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_setup'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I create the ssl directory in nginx$/) do
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_dir'"
+
+    output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^SSL directory should exist$/) do
+   output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx | grep ssl'"
+
+    expect(output).to match("ssl")
+end
+
+Then(/^I should create an SSL certificate$/) do
+   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_cert'"
+
+    output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^the key file should exist$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/ssl/ | grep server.key'"
+
+  expect(output).to match("server.key")
+end
+
+Then(/^the certificate should exist$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/ssl/ | grep server.crt'"
+
+  expect(output).to match("server.crt")
 end
