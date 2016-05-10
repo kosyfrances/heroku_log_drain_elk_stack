@@ -56,3 +56,9 @@ Feature: Provision and Install
   Scenario: Create kibana write htpassword for the ability to save dashboards
     When I create kibana write htpassword
     Then kibanawritehtpasswd file should exist
+
+  Scenario: Update nginx config for kibana
+    When I copy sites available default for kibana
+    Then kibana file should exist in sites available
+    Then I should link the file to sites enabled
+    And kibana file should exist in sites enabled

@@ -9,11 +9,8 @@
 - name: Install nginx
   apt: name=nginx state=present force=yes
   when: nginx_installed|failed
-  tags:
-    - nginx_setup
-
-- name: Start nginx
-  service: name=nginx state=started enabled=yes
+  notify:
+    - start nginx
   tags:
     - nginx_setup
 
@@ -24,11 +21,8 @@
 
 - name: Create a self-signed SSL certificate
   command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN"=${ansible_fqdn} -days 3650 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
-  tags:
-    - ssl_cert
-
-- name: Reload nginx
-  service: name=nginx state=restarted
+  notify:
+    - restart nginx
   tags:
     - ssl_cert
 
@@ -67,3 +61,15 @@
   htpasswd: path=/etc/nginx/conf.d/kibana-write.htpasswd name={{username}} password={{password}} crypt_scheme=md5_crypt
   tags:
     - kibanawrite.htpassword
+
+- name: Copy default file in nginx sites available
+  copy: src=/etc/nginx/sites-available/default dest=/etc/nginx/sites-available/kibana remote_src=yes
+  tags:
+    - kibana_sites_available
+
+- name: Create a symlink from sites available to enabled for kibana
+  file: src=/etc/nginx/sites-available/kibana dest=/etc/nginx/sites-enabled/kibana state=link
+  tags:
+    - kibana_symlink
+  notify:
+    - restart nginx

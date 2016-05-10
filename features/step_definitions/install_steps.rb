@@ -131,8 +131,6 @@ Then(/^kibanahtpasswd file should exist$/) do
   output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana.htpasswd'"
 
   expect(output).to match("kibana.htpasswd")
-  puts output
-  puts error
 end
 
 When(/^I create kibana write htpassword$/) do
@@ -145,4 +143,28 @@ Then(/^kibanawritehtpasswd file should exist$/) do
   output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana-write.htpasswd'"
 
   expect(output).to match("kibana-write.htpasswd")
+end
+
+When(/^I copy sites available default for kibana$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_sites_available'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^kibana file should exist in sites available$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/sites-available/ | grep kibana'"
+
+  expect(output).to match("kibana")
+end
+
+Then(/^I should link the file to sites enabled$/) do
+   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_symlink'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^kibana file should exist in sites enabled$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/sites-enabled/ | grep kibana'"
+
+  expect(output).to match("kibana")
 end
