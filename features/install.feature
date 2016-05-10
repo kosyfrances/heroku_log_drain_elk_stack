@@ -44,3 +44,15 @@ Feature: Provision and Install
   Scenario: Install apacheutils
     When I install apacheutils
     Then it should be successful
+
+  Scenario: Install  python passlib library for htpasswd module
+    When I install python passlib
+    Then it should be successful
+
+  Scenario: Create kibana htpassword for access to kibana elasticsearch
+    When I create htpasswd user and password
+    Then kibanahtpasswd file should exist
+
+  Scenario: Create kibana write htpassword for the ability to save dashboards
+    When I create kibana write htpassword
+    Then kibanawritehtpasswd file should exist

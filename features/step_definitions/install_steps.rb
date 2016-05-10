@@ -114,3 +114,35 @@ When(/^I install apacheutils$/) do
 
   output, error, @status = Open3.capture3 "#{cmd}"
 end
+
+When(/^I install python passlib$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'passlib_setup'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I create htpasswd user and password$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana.htpassword'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^kibanahtpasswd file should exist$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana.htpasswd'"
+
+  expect(output).to match("kibana.htpasswd")
+  puts output
+  puts error
+end
+
+When(/^I create kibana write htpassword$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibanawrite.htpassword'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^kibanawritehtpasswd file should exist$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana-write.htpasswd'"
+
+  expect(output).to match("kibana-write.htpasswd")
+end

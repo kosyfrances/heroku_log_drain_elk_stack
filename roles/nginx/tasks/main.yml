@@ -44,3 +44,26 @@
   when: apache2_utils_installed|failed
   tags:
     - apache2_utils_setup
+
+- name: Check if python passlib is installed
+  command: bash -c "dpkg --get-selections | grep python-passlib"
+  register: passlib_installed
+  ignore_errors: True
+  tags:
+    - passlib_setup
+
+- name: Install python passlib
+  apt: name=python-passlib state=present force=yes
+  when: passlib_installed|failed
+  tags:
+    - passlib_setup
+
+- name: Create kibana.htpassword
+  htpasswd: path=/etc/nginx/conf.d/kibana.htpasswd name={{username}} password={{password}} crypt_scheme=md5_crypt
+  tags:
+    - kibana.htpassword
+
+- name: Create kibana-write.htpassword
+  htpasswd: path=/etc/nginx/conf.d/kibana-write.htpasswd name={{username}} password={{password}} crypt_scheme=md5_crypt
+  tags:
+    - kibanawrite.htpassword
