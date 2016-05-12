@@ -14,3 +14,6 @@
 - name: Wait for kibana to be up
   command: bash -c "! curl localhost:5601"
   ignore_errors: True
+
+- name: Copy kibana config file
+  template: src=kibana.yml dest=/opt/kibana/config/kibana.yml

@@ -20,3 +20,6 @@
   async: 90
   poll: 5
   ignore_errors: True
+
+- name: Copy elasticsearch config file
+  template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml

@@ -75,7 +75,7 @@
     - restart nginx
 
 - name: Copy kibana nginx file
-  template: src=nginx_kibana dest=/etc/nginx/sites-available/kibana
+  template: src=nginx_kibana dest=/etc/nginx/sites-enabled/kibana
   tags:
     - nginx_kibana
   notify:
