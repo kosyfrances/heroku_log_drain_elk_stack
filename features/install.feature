@@ -62,3 +62,4 @@ Feature: Provision and Install
     Then kibana file should exist in sites available
     Then I should link the file to sites enabled
     And kibana file should exist in sites enabled
+    Then I should copy the nginx kibana template to sites available for kibana

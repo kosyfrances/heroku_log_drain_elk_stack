@@ -168,3 +168,9 @@ Then(/^kibana file should exist in sites enabled$/) do
 
   expect(output).to match("kibana")
 end
+
+Then(/^I should copy the nginx kibana template to sites available for kibana$/) do
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_kibana'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+end
