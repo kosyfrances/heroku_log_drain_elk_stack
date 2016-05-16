@@ -23,8 +23,8 @@ Feature: Provision and Install
 
   Scenario: Create logstash directory
     When I create a logstash directory
+    And I add the heroku logstash conf file
     Then conf.d directory should exist
-    And heroku logstash conf file should be added
     And heroku logstash conf file should be present
 
   Scenario: Install nginx
@@ -35,7 +35,6 @@ Feature: Provision and Install
 
   Scenario: Set up SSL
     When I create the ssl directory in nginx
-    Then SSL directory should exist
     Then I should create an SSL certificate
     And the key file should exist
     And the certificate should exist
@@ -58,8 +57,5 @@ Feature: Provision and Install
     Then kibanawritehtpasswd file should exist
 
   Scenario: Update nginx config for kibana
-    When I copy sites available default for kibana
-    Then kibana file should exist in sites available
-    Then I should link the file to sites enabled
-    And kibana file should exist in sites enabled
-    Then I should copy the nginx kibana template to sites available for kibana
+    When I copy the nginx kibana template to sites-enabled dir for kibana
+    Then the nginx kibana template should exist in sites-enabled dir

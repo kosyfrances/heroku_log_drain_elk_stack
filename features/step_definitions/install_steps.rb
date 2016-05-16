@@ -56,21 +56,21 @@ When(/^I create a logstash directory$/) do
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^conf.d directory should exist$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/logstash/ | grep conf.d'"
-
-  expect(output).to match("conf.d")
-end
-
-And(/^heroku logstash conf file should be added$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
+And(/^I add the heroku logstash conf file$/) do
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^heroku logstash conf file should be present$/) do
-    output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/logstash/conf.d | grep heroku.conf'"
+Then(/^conf.d directory should exist$/) do
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -d /etc/logstash/conf.d'"
 
-    expect(output).to match("heroku.conf")
+    expect(status.success?).to eq true
+end
+
+Then(/^heroku logstash conf file should be present$/) do
+   _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/logstash/conf.d/heroku.conf'"
+
+   expect(status.success?).to eq true
 end
 
 When(/^I install nginx$/) do
@@ -85,12 +85,6 @@ When(/^I create the ssl directory in nginx$/) do
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^SSL directory should exist$/) do
-   output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx | grep ssl'"
-
-    expect(output).to match("ssl")
-end
-
 Then(/^I should create an SSL certificate$/) do
    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_cert'"
 
@@ -98,79 +92,61 @@ Then(/^I should create an SSL certificate$/) do
 end
 
 Then(/^the key file should exist$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/ssl/ | grep server.key'"
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/nginx/ssl/server.key'"
 
-  expect(output).to match("server.key")
+    expect(status.success?).to eq true
 end
 
 Then(/^the certificate should exist$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/ssl/ | grep server.crt'"
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/nginx/ssl/server.crt'"
 
-  expect(output).to match("server.crt")
+    expect(status.success?).to eq true
 end
 
 When(/^I install apacheutils$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'apache2_utils_setup'"
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'apache2_utils_setup'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install python passlib$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'passlib_setup'"
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'passlib_setup'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I create htpasswd user and password$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana.htpassword'"
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana.htpassword'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^kibanahtpasswd file should exist$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana.htpasswd'"
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/nginx/conf.d/kibana.htpasswd'"
 
-  expect(output).to match("kibana.htpasswd")
+    expect(status.success?).to eq true
 end
 
 When(/^I create kibana write htpassword$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibanawrite.htpassword'"
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibanawrite.htpassword'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^kibanawritehtpasswd file should exist$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/conf.d/ | grep kibana-write.htpasswd'"
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/nginx/conf.d/kibana-write.htpasswd'"
 
-  expect(output).to match("kibana-write.htpasswd")
+    expect(status.success?).to eq true
 end
 
-When(/^I copy sites available default for kibana$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_sites_available'"
+When(/^I copy the nginx kibana template to sites-enabled dir for kibana$/) do
+    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_sites_available'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^kibana file should exist in sites available$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/sites-available/ | grep kibana'"
+Then(/^the nginx kibana template should exist in sites-enabled dir$/) do
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/nginx/sites-enabled/kibana'"
 
-  expect(output).to match("kibana")
-end
-
-Then(/^I should link the file to sites enabled$/) do
-   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_symlink'"
-
-  output, error, @status = Open3.capture3 "#{cmd}"
-end
-
-Then(/^kibana file should exist in sites enabled$/) do
-  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /etc/nginx/sites-enabled/ | grep kibana'"
-
-  expect(output).to match("kibana")
-end
-
-Then(/^I should copy the nginx kibana template to sites available for kibana$/) do
-  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_kibana'"
-
-  output, error, @status = Open3.capture3 "#{cmd}"
+    expect(status.success?).to eq true
 end

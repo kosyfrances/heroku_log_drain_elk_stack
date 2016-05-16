@@ -62,21 +62,9 @@
   tags:
     - kibanawrite.htpassword
 
-- name: Copy default file in nginx sites available
-  copy: src=/etc/nginx/sites-available/default dest=/etc/nginx/sites-available/kibana remote_src=yes
-  tags:
-    - kibana_sites_available
-
-- name: Create a symlink from sites available to enabled for kibana
-  file: src=/etc/nginx/sites-available/kibana dest=/etc/nginx/sites-enabled/kibana state=link
-  tags:
-    - kibana_symlink
-  notify:
-    - restart nginx
-
 - name: Copy kibana nginx file
   template: src=nginx_kibana dest=/etc/nginx/sites-enabled/kibana
   tags:
-    - nginx_kibana
+    - kibana_sites_available
   notify:
     - restart nginx
