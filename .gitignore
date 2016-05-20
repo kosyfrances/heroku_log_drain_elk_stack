@@ -54,3 +54,5 @@ Status API Training Shop Blog About
 test_id_rsa
 test_id_rsa.pub
 *.retry
+*.pem
+.DS_Store

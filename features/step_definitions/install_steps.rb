@@ -13,7 +13,7 @@ And(/^I provision it$/) do
 end
 
 When(/^I install elasticsearch$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'elasticsearch_setup'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'elasticsearch_setup'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
@@ -42,22 +42,22 @@ And(/^it should be accepting connections on port ([^"]*)$/) do |port|
 end
 
 When(/^I install logstash$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'logstash_setup'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'logstash_setup'"
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install kibana$/) do
-   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_setup'"
+   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_setup'"
    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I create a logstash directory$/) do
-   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'logstash_dir'"
+   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'logstash_dir'"
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 And(/^I add the heroku logstash conf file$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'conf_file'"
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
@@ -74,19 +74,19 @@ Then(/^heroku logstash conf file should be present$/) do
 end
 
 When(/^I install nginx$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_setup'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'nginx_setup'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I create the ssl directory in nginx$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_dir'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_dir'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^I should create an SSL certificate$/) do
-   cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_cert'"
+   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'ssl_cert'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
@@ -104,19 +104,19 @@ Then(/^the certificate should exist$/) do
 end
 
 When(/^I install apacheutils$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'apache2_utils_setup'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'apache2_utils_setup'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install python passlib$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'passlib_setup'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'passlib_setup'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I create htpasswd user and password$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana.htpassword'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana.htpassword'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
@@ -128,7 +128,7 @@ Then(/^kibanahtpasswd file should exist$/) do
 end
 
 When(/^I create kibana write htpassword$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibanawrite.htpassword'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibanawrite.htpassword'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end
@@ -140,7 +140,7 @@ Then(/^kibanawritehtpasswd file should exist$/) do
 end
 
 When(/^I copy the nginx kibana template to sites-enabled dir for kibana$/) do
-    cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_sites_available'"
+    cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/elkserver/virtualbox/private_key -u vagrant playbook.elk.yml --tags 'kibana_sites_available'"
 
     output, error, @status = Open3.capture3 "#{cmd}"
 end

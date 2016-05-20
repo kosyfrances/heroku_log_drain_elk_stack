@@ -12,11 +12,6 @@
   tags:
     - logstash_setup
 
-- name: Start logstash
-  service: name=logstash state=started enabled=yes
-  tags:
-    - logstash_setup
-
 - name: Create logstash etc directory
   file: path=/etc/logstash/conf.d state=directory
   tags:
@@ -26,3 +21,8 @@
   template: src=heroku.conf dest=/etc/logstash/conf.d/heroku.conf
   tags:
     - conf_file
+
+- name: Start logstash
+  service: name=logstash state=started enabled=yes
+  tags:
+    - logstash_setup

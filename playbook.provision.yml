@@ -1,7 +1,9 @@
 ---
 - hosts: all
-  user: vagrant
+  user: "{{  host_user }}"
   become: yes
   become_method: sudo
+  vars_files:
+    - "vars.yml"
   roles:
     - provision

@@ -1,10 +1,10 @@
 ---
 - hosts: all
-  user: vagrant
+  user: "{{  host_user }}"
   become: yes
   become_method: sudo
   vars_files:
-    - "/Users/kosyanyanwu/workspace/vars/elk_secure.yml"
+    - "vars.yml"
   roles:
     - { role: elasticsearch, tags: 'elasticsearch_setup' }
     - { role: kibana, tags: 'kibana_setup' }
