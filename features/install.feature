@@ -13,7 +13,6 @@ Feature: Provision and Install
   Scenario: Install logstash
     When I install logstash
     Then it should be successful
-    And logstash should be running
 
   Scenario: Install kibana
     When I install kibana
@@ -26,6 +25,7 @@ Feature: Provision and Install
     And I add the heroku logstash conf file
     Then conf.d directory should exist
     And heroku logstash conf file should be present
+    And logstash should be running
 
   Scenario: Install nginx
     When I install nginx
