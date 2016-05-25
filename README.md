@@ -57,6 +57,16 @@ This is the index pattern for heroku on Kibana - `[heroku-logs-]YYYY.MM.DD`
 You should be able to see your logs on Kibana after that.
 
 ### Deploying to an EC2 Instance
+
+**Install the following on your mac:**
+- Ansible: _pip install ansible_
+
+**Clone the project**
+```
+$ git clone https://github.com/andela-kanyanwu/heroku_log_drain_elk_stack.git
+$ cd heroku_log_drain_elk_stack/
+```
+**Set up the EC2 instance**
 - Spin up an EC2 instance and ssh into it. Refer to AWS documentation for guidance.
 - Change the IP address on the `prod_inventory.ini` file to that of your instance.
 - Update the variables in `vars.yml` file with your variables.
