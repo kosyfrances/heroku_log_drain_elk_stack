@@ -52,6 +52,8 @@ Visit https://192.168.33.10 to check out kibana.
 ```
 $ heroku logs -t --app <YOUR_APP_NAME> | nc localhost 1514
 ```
+Go back to kibana, select `Use event times to create index times`
+
 This is the index pattern for heroku on Kibana - `[heroku-logs-]YYYY.MM.DD`
 
 You should be able to see your logs on Kibana after that.
@@ -89,3 +91,9 @@ Visit https://YOUR_IP_ADDRESS to check out kibana.
 $ heroku drains:add https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_INSTANCE_IP_ADDRESS:1514 -a <app_name>
 ```
 Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your new username and password specified in the `vars.yml` file that you updated. Be sure to replace `<app_name>` with the name of your app on heroku.
+
+Go back to kibana, select `Use event times to create index times`
+
+This is the index pattern for heroku on Kibana - `[heroku-logs-]YYYY.MM.DD`
+
+You should be able to see your logs on Kibana after that.
