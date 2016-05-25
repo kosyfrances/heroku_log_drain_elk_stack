@@ -88,7 +88,7 @@ Visit https://YOUR_IP_ADDRESS to check out kibana.
 
 **To add drain from heroku, run this from your local machine**
 ```
-$ heroku drains:add https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_INSTANCE_IP_ADDRESS:1514 -a <app_name>
+$ heroku drains:add https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_INSTANCE_IP_ADDRESS/log -a <app_name>
 ```
 Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your new username and password specified in the `vars.yml` file that you updated. Be sure to replace `<app_name>` with the name of your app on heroku.
 
