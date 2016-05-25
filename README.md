@@ -58,6 +58,10 @@ You should be able to see your logs on Kibana after that.
 
 ### Deploying to an EC2 Instance
 
+**Set up the EC2 instance**
+
+- Spin up an EC2 instance and ssh into it. Refer to AWS documentation for guidance.
+
 **Install the following on your mac:**
 - Ansible: _pip install ansible_
 
@@ -66,10 +70,11 @@ You should be able to see your logs on Kibana after that.
 $ git clone https://github.com/andela-kanyanwu/heroku_log_drain_elk_stack.git
 $ cd heroku_log_drain_elk_stack/
 ```
-**Set up the EC2 instance**
-- Spin up an EC2 instance and ssh into it. Refer to AWS documentation for guidance.
-- Change the IP address on the `prod_inventory.ini` file to that of your instance.
-- Update the variables in `vars.yml` file with your variables.
+**Update settings in the repository locally**
+- Look for `prod_inventory.ini` file in the root of the project and change the IP address on it to that of your EC2 instance.
+- Look for `vars.yml` file in the root of the project and change the values of the variables to yours.
+
+**Run the project against the EC2 instance**
 - Run the following in your local machine against the instance.
 ```
 $ ansible-playbook -i prod_inventory.ini --private-key=<PATH TO YOUR PRIVATE KEY> -u ubuntu playbook.provision.yml
