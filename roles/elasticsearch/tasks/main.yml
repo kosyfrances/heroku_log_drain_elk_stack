@@ -12,6 +12,9 @@
     - openjdk-7-jdk
     - elasticsearch=2.3.2
 
+- name: Copy elasticsearch shell script to init.d
+  template: src=elasticsearch_init_d dest=/etc/init.d/elasticsearch mode="0775"
+
 - name: Start elasticsearch
   service: name=elasticsearch state=started enabled=yes
 

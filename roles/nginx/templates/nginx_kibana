@@ -18,6 +18,10 @@ server {
     }
 
     location /log {
+        rewrite ^/log(.*) /$1 break;
+        proxy_pass_request_headers off;
+        proxy_send_timeout 250;
+        proxy_read_timeout 250;
         proxy_pass http://localhost:1514;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

@@ -1,6 +1,8 @@
 ---
 
-host_user: YOUR_HOST_USER
-username: YOUR_USERNAME
+host_user: SERVER_HOST_NAME
+username: SERVER_NAME
 password: YOUR_PASSWORD
 server_ip: XX.XX.XX.XX
+es_max_mem: 512m
+server_env: local ## change "local" to "prod" if environment is production

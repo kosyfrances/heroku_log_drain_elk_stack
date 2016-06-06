@@ -37,7 +37,7 @@ $ cd heroku_log_drain_elk_stack/
 $ vagrant up
 $ vagrant ssh
 ```
-- Update the variables in `vars.yml` file with your variables setting `host_user` to `vagrant` and `server_ip` to `192.168.33.10`. The username and password should be whatever you want.
+- Update the variables in `vars.yml` file with your variables setting `host_user` to `vagrant`, `server_ip` to `192.168.33.10` and `server_env` to `local`. The username and password should be whatever you want. You can always change the `es_max_mem` to the size you want it to be, or leave it as it is.
 
 Switch to another terminal in your local machine, not inside your VM, run
 ```
@@ -74,7 +74,7 @@ $ cd heroku_log_drain_elk_stack/
 ```
 **Update settings in the repository locally**
 - Look for `prod_inventory.ini` file in the root of the project and change the IP address on it to that of your EC2 instance.
-- Look for `vars.yml` file in the root of the project and change the values of the variables to yours, where `host_user` is the name of the user account in the distro e.g _ubuntu_, `server_ip` is the IP address of your EC2 instance, username and password can be whatever you want.
+- Look for `vars.yml` file in the root of the project and change the values of the variables to yours, where `host_user` is the name of the user account in the distro e.g _ubuntu_, `server_ip` is the IP address of your EC2 instance, `server_env` is `prod`, username and password can be whatever you want. You can always change the `es_max_mem` to the size you want it to be, or leave it as it is.
 
 **Run the project against the EC2 instance**
 - Run the following in your local machine against the instance.

@@ -18,9 +18,14 @@
     - logstash_dir
 
 - name: Add heroku logstash conf file
-  template: src=heroku.conf dest=/etc/logstash/conf.d/heroku.conf
+  template: src=heroku.conf dest=/etc/logstash/conf.d/heroku_{{server_env}}.conf
   tags:
     - conf_file
+
+- name: Copy logstash config sh file
+  template: src=logstash.lib.sh dest=/opt/logstash/bin/logstash.lib.sh mode="0775"
+  tags:
+    - logstash_setup
 
 - name: Start logstash
   service: name=logstash state=started enabled=yes
