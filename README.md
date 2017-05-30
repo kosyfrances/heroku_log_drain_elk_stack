@@ -69,7 +69,7 @@ You should be able to see your logs on Kibana after that.
 
 **Clone the project**
 ```
-$ git clone https://github.com/andela-kanyanwu/heroku_log_drain_elk_stack.git
+$ git clone https://github.com/kosyfrances/heroku_log_drain_elk_stack.git
 $ cd heroku_log_drain_elk_stack/
 ```
 **Update settings in the repository locally**
