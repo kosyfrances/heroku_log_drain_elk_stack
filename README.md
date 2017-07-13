@@ -28,7 +28,7 @@ ruby -v
 
 **Clone the project**
 ```
-$ git clone https://github.com/andela-kanyanwu/heroku_log_drain_elk_stack.git
+$ git clone https://github.com/kosyfrances/heroku_log_drain_elk_stack.git
 ```
 
 **Set it up**
